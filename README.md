@@ -38,10 +38,6 @@ Change the parameters accordingly.
 
 4. Important things to pay attention: Certificate image and Excel sheet.
 
-* A imagem do certificado sempre se chama **template_certificado.png**, então renomeie o seu arquivo para o mesmo nome e coloque nessa pasta.
-* O arquivo de Excel sempre se chama **lista_participantes.xlsx**, então você também pode renomear. Outra coisa interessante é que sempre segue o mesmo padrão, onde a coluna 1 é e-mail, coluna 2 é o nome completo e a coluna 3 é o nome que deve aparecer no certificado.
-* Na linha 20 é definido a posição do nome que será escrito (640,1000). Talvez você precise mudar isso, dependendo do tamanho do seu certificado.
-
 * The certificate image must always be called **certificate_template.png** as it is hardcoded.
 * The Excel sheet must always be called **students.xlsx** as it is hardcoded.
 * The Excel sheet must always contain the same columns: (column 1 => e-mail, column 2 => full name, column 3 => the name that should be written to the certificate).
