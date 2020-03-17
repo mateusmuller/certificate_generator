@@ -1,61 +1,65 @@
-# Gerador de Certificados para Diretórios Acadêmicos
+# Academics courses attendance Certificate Generator
 
-Este foi um projeto desenvolvido para o Diretório Acadêmico de Enfermagem da Universidade Feevale, mas que decidi compartilhar o código-fonte para também ajudar outras pessoas. Note que, por enquanto, será necessário ter alguns conhecimentos de programação para pode utiliza-lo da melhor maneira. Sugiro que você chame algum amigo(a) que entenda o básico e tenho certeza que tudo vai dar certo! :)
+There was a day that my girlfriend said "We created more than 100 certificates manually for each student". I said, this must be automated.
 
-## Como utilizar?
+I have started to make some research about Python and how I could combine different libraries to get it done. I did it.
 
-1. O primeiro passo é configurar a conta de e-mail do seu diretório para aceitar aplicativos menos seguros. Como a aplicação que desenvolvi (assim como qualquer outra desenvolvida por um mero mortal) não é "assinada digitalmente" ou que possui alguma conexão encriptada, será necessário habilitar aplicativos menos seguro. Clique [aqui](https://myaccount.google.com/security) e desative a opção **Acesso a app menos seguro**.
+I have also improved the project with Docker support and other cool stuff. It was a really nice experience to learn more about automation.
 
-2. Agora você precisa clonar este repositório para poder utilizar.
+## How to use it?
+
+The goal of the script is to read a Excel sheet with the students names, generate all the certificates in PNG format and automatically send an e-mail with the attachment.
+
+1. In order to use the script, the first step is to allow less secure apps to have access to your e-mail address, as this is a simple Python script considered a third-party and not trustable application. You can click [here](https://myaccount.google.com/lesssecureapps) and activate the option to allow less secure apps.
+
+2. Now you can clone the repository to use it.
 
 ```
-$ git clone https://github.com/mateusmuller/gerador_certificados
-$ cd gerador_certificados
+$ git clone https://github.com/mateusmuller/certificate_generator
+$ cd certificate_generator
 ```
 
-3. Agora, você precisa criar um arquivo chamado **credenciais.json** com as seguintes informações:
+3. Also, you need to create a file called **credentials.json** on the same directory with this information:
 
 ```
 {
-    "e-mail" : "seuemail@gmail.com",
-    "senha" : "suasenha",
-    "servidor_smtp" : "smtp.gmail.com",
-    "porta_smtp" : 587,
-    "e-mail_titulo" : "Certificados da Palestra XXX",
-    "e-mail_corpo" : "Segue o e-mail em anexo.",
-    "planilha_participantes" : "lista_participantes.xlsx",
-    "foto_template_certificado" : "template_certificado.png"
+    "email" : "your e-mail",
+    "password" : "your password",
+    "smtp_server" : "smtp.gmail.com",
+    "smtp_port" : 587,
+    "email_subject" : "Talk ### certificate",
+    "email_body" : "Follow attached",
+    "students_sheet" : "students.xlsx",
+    "picture_certificate_template" : "certificate_template.png"
 }
 ```
 
-Mude os parâmetros conforme o nome dos seus arquivos.
+Change the parameters accordingly.
 
-4. Coisas que você precisa se atentar: A imagem do certificado e o arquivo de Excel.
+4. Important things to pay attention: Certificate image and Excel sheet.
 
 * A imagem do certificado sempre se chama **template_certificado.png**, então renomeie o seu arquivo para o mesmo nome e coloque nessa pasta.
 * O arquivo de Excel sempre se chama **lista_participantes.xlsx**, então você também pode renomear. Outra coisa interessante é que sempre segue o mesmo padrão, onde a coluna 1 é e-mail, coluna 2 é o nome completo e a coluna 3 é o nome que deve aparecer no certificado.
 * Na linha 20 é definido a posição do nome que será escrito (640,1000). Talvez você precise mudar isso, dependendo do tamanho do seu certificado.
 
-5. Finalizado, basta executar o script usando Docker (por conta das dependências):
+* The certificate image must always be called **certificate_template.png** as it is hardcoded.
+* The Excel sheet must always be called **students.xlsx** as it is hardcoded.
+* The Excel sheet must always contain the same columns: (column 1 => e-mail, column 2 => full name, column 3 => the name that should be written to the certificate).
+* Line 34 has the position of the text.
+
+5. Then you can execute using Docker to automatically build the dependencies.
 
 ```
-$ docker build -t gerador_certificados:latest .
-$ docker run --rm -v $(pwd)/credenciais.json:/app/credenciais.json gerador_certificados:latest
+$ docker build -t certificate_generator:latest .
+$ docker run --rm -v $(pwd)/credentials.json:/app/credentials.json certificate_generator:latest
 ```
 
-**OBS:** Usei o -v para passar o arquivo de credenciais, caso contrário, você teria que criar uma nova imagem a cada atualização neste arquivo.
+**OBS:** I have used "-v" to pass the volume, so I don't need to rebuild the image every time I change credentials.
 
-## Dicas
+## Tips
 
-Sugiro usar o Google Forms para gerar o formulário de inscrição das palestras e depois só baixar o .xlsx e atribuir ao script.
+I suggest to use Google Forms for the students subscription and afterwards generate an Excel sheet with all of them.
 
-## Licença
+## License
 
-Este projeto está sob a licença do MIT - Veja [LICENSE](LICENSE) para mais detalhes.
-
-## Updates
-
-As próximas atualizações serão:
-
-1. Usar o arquivo de credencias como JSON.
-2. Usar docker volumes para transportar o arquivo de credenciais.
+See [LICENSE](LICENSE) fur further information.
